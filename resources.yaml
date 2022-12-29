@@ -16,7 +16,7 @@ notesTable:
 cognitoUserPool:
   Type: AWS::Cognito::UserPool
   Properties:
-    UserPoolName: NotesUserPool-${self.provider.stage}
+    UserPoolName: NotesUserPool-${self:provider.stage}
 
   
 #Cognito User pool client
@@ -43,4 +43,4 @@ cognitoUserPoolDomain:
   Type: AWS::Cognito::UserPoolDomain
   Properties:
     UserPoolId: !Ref cognitoUserPool
-    Domain: notescd-${self.provider.stage}
+    Domain: notescd-${self:provider.stage}
