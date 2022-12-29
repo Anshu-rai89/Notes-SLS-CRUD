@@ -41,6 +41,10 @@ functions:
       - http:
           path: notes
           method: post
+          authorizer:
+            name: userpool_authorizer
+            type: COGNITO_USER_POOLS
+            arn: !GetAtt cognitoUserPool.Arn
       
   updateNote: 
     handler: handler.updateNote
@@ -53,6 +57,10 @@ functions:
       - http:
           path: /notes/{id}
           method: put
+          authorizer:
+            name: userpool_authorizer
+            type: COGNITO_USER_POOLS
+            arn: !GetAtt cognitoUserPool.Arn
   
   getNotes: 
     handler: handler.getNotes
@@ -65,6 +73,10 @@ functions:
       - http:
           path: /notes
           method: get
+          authorizer:
+            name: userpool_authorizer
+            type: COGNITO_USER_POOLS
+            arn: !GetAtt cognitoUserPool.Arn
 
   deleteNotes: 
     handler: handler.deleteNotes
@@ -77,6 +89,10 @@ functions:
       - http:
           path: /notes/{id}
           method: delete
+          authorizer:
+            name: userpool_authorizer
+            type: COGNITO_USER_POOLS
+            arn: !GetAtt cognitoUserPool.Arn
 
 
 #plugins
@@ -86,14 +102,4 @@ plugins:
 
 resources:
   Resources:
-    notesTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: notes
-        BillingMode: PAY_PER_REQUEST
-        AttributeDefinitions:
-          - AttributeName: notesID
-            AttributeType: S
-        KeySchema:
-          - AttributeName: notesID
-            KeyType: 'HASH'
+    ${file(resources.yaml)}
